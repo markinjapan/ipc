@@ -1,0 +1,23 @@
+{
+    "name": "markinjapan/ipc",
+    "description": "IPC framework for ZF2",
+    "keywords": ["php","zf2","ipc"],
+    "type": "library",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Mark Prosser",
+            "email": "mark.prosser8@gmail.com"
+        }
+    ],
+    "homepage": "http://github.com/markinjapan/ipc",
+    "require": {
+        "php": ">=5.4.0",
+        "zendframework/zend-eventmanager": "~2.3",
+    },
+    "autoload": {
+        "psr-4": {
+            "MarkInJapan\\Ipc\\": "src/"
+        }
+    }
+}
