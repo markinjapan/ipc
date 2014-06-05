@@ -2,6 +2,7 @@
 
 namespace MarkInJapan\Ipc\Adapter;
 
+use RuntimeException;
 use Zend\Db\TableGateway\TableGateway;
 
 class DbAdapter extends AbstractAdapter
@@ -15,6 +16,7 @@ class DbAdapter extends AbstractAdapter
     {
         $this->_last_send = $message;
 
+        // Update channel
         $this->_gateway->update(array(
             $this->_send_identifier => $this->_last_send,
         ), array(
@@ -32,11 +34,16 @@ class DbAdapter extends AbstractAdapter
      */
     public function receive()
     {
-        $message = $this->_gateway->fetch(array(
+        // Read channel
+        $channel = $this->_gateway->select(array(
             'id' => $this->_channel,
         ));
+        if (count($channel) === 0) {
+            throw new RuntimeException('Channel "' . $this->_channel . '" could not be found');
+        }
 
-        $this->_last_recv = $message[$this->_recv_identifier];
+        // Extract message from channel
+        $this->_last_recv = $channel->current()[$this->_recv_identifier];
 
         $this->getEventManager()->trigger('ipc.received', $this, array('message' => $this->_last_recv));
 
