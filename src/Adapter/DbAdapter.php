@@ -2,6 +2,7 @@
 
 namespace MarkInJapan\Ipc\Adapter;
 
+use InvalidArgumentException;
 use RuntimeException;
 use Zend\Db\TableGateway\TableGateway;
 

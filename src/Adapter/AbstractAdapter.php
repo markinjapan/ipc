@@ -2,6 +2,7 @@
 
 namespace MarkInJapan\Ipc\Adapter;
 
+use InvalidArgumentException;
 use Zend\EventManager\EventManagerAwareInterface;
 use Zend\EventManager\EventManagerAwareTrait;
 
