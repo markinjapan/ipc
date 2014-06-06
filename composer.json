@@ -3,7 +3,7 @@
     "description": "IPC framework for ZF2",
     "keywords": ["php","zf2","ipc"],
     "type": "library",
-    "license": "proprietary",
+    "license": "Apache-2.0",
     "authors": [
         {
             "name": "Mark Prosser",
@@ -14,6 +14,10 @@
     "require": {
         "php": ">=5.4.0",
         "zendframework/zend-eventmanager": "~2.3"
+    },
+    "suggest": {
+        "markinjapan/rest-api-client": "Required to use API as communication medium",
+        "zendframework/zend-db": "Required to use database as communication medium"
     },
     "autoload": {
         "psr-4": {
