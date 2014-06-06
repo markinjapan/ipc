@@ -25,9 +25,7 @@ class DbAdapter extends AbstractAdapter
         // Update channel
         $this->_gateway->update(array(
             $this->_send_identifier => $this->_last_send,
-        ), array(
-            $this->_getChannel(),
-        ));
+        ), $this->_getChannel());
 
         $this->getEventManager()->trigger('sent', $this, array('message' => $this->_last_send));
 
@@ -56,18 +54,16 @@ class DbAdapter extends AbstractAdapter
 
     protected function _getChannel()
     {
-        // If channel is string, assume channel column is "id"
-        if (is_string($this->_channel)) {
-            return array(
-                'id' => $this->_channel,
-            );
+        // If channel is string or integer, assume channel column is "id"
+        if (is_string($this->_channel) or is_integer($this->_channel)) {
+            return array('id' => $this->_channel);
         }
         // Else if channel is array, assume columm => identifier pair
         elseif (is_array($this->_channel)) {
             return $this->_channel;
         }
         else {
-            throw new InvalidArgumentException('Channel must be either a string, or column => identifier pair');
+            throw new InvalidArgumentException('Channel must be either a string, integer, or column => identifier pair');
         }
     }
 }
