@@ -13,13 +13,18 @@ class ApiAdapter extends AbstractAdapter
      */
     public function send($message)
     {
+        // Ensure message is string
+        if (is_string($message) === false) {
+            throw new InvalidArgumentException('Message to send must be a string');
+        }
+
         $this->_last_send = $message;
 
         $this->_gateway->update($this->_channel, array(
             $this->_send_identifier => $this->_last_send,
         ));
 
-        $this->getEventManager()->trigger('ipc.sent', $this, array('message' => $this->_last_send));
+        $this->getEventManager()->trigger('sent', $this, array('message' => $this->_last_send));
 
         return $this;
     }
@@ -34,7 +39,7 @@ class ApiAdapter extends AbstractAdapter
 
         $this->_last_recv = $message[$this->_recv_identifier];
 
-        $this->getEventManager()->trigger('ipc.received', $this, array('message' => $this->_last_recv));
+        $this->getEventManager()->trigger('received', $this, array('message' => $this->_last_recv));
 
         return $this->_last_recv;
     }

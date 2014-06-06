@@ -49,7 +49,14 @@ abstract class AbstractAdapter implements IpcAdapterInterface, EventManagerAware
      */
     public function __construct($gateway, $channel, $send_identifier, $recv_identifier)
     {
-        // Need DB adapter, table name, row ID, send field name, receive field name
+        // Ensure send and receive identifers are string type
+        if (is_string($send_identifier) === false) {
+            throw new InvalidArgumentException('Send identifier must be a string');
+        }
+        if (is_string($recv_identifier) === false) {
+            throw new InvalidArgumentException('Receive identifier must be a string');
+        }
+
         $this->_gateway = $gateway;
         $this->_channel = $channel;
         $this->_send_identifier = $send_identifier;
