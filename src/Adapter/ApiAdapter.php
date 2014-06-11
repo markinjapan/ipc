@@ -36,9 +36,14 @@ class ApiAdapter extends AbstractAdapter
      */
     public function receive()
     {
-        $message = $this->_gateway->fetch($this->_channel);
+        // Read channel
+        $channel = $this->_gateway->fetch($this->_channel);
+        if (count($channel) === 0) {
+            throw new RuntimeException('Channel could not be found');
+        }
 
-        $this->_last_recv = $message[$this->_recv_identifier];
+        // Extract message from channel
+        $this->_last_recv = $channel->current()[$this->_recv_identifier];
 
         $this->getEventManager()->trigger('received', $this, array('message' => $this->_last_recv));
 
