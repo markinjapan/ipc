@@ -43,7 +43,7 @@ class ApiAdapter extends AbstractAdapter
         }
 
         // Extract message from channel
-        $this->_last_recv = $channel->current()[$this->_recv_identifier];
+        $this->_last_recv = $channel->current()->{$this->_recv_identifier};
 
         $this->getEventManager()->trigger('received', $this, array('message' => $this->_last_recv));
 
