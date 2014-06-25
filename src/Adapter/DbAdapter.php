@@ -5,6 +5,7 @@ namespace MarkInJapan\Ipc\Adapter;
 use InvalidArgumentException;
 use RuntimeException;
 use Zend\Db\TableGateway\TableGateway;
+use MarkInJapan\Ipc\IpcEvent;
 
 class DbAdapter extends AbstractAdapter
 {
@@ -27,7 +28,10 @@ class DbAdapter extends AbstractAdapter
             $this->_send_identifier => $this->_last_send,
         ), $this->_getChannel());
 
-        $this->getEventManager()->trigger('sent', $this, array('message' => $this->_last_send));
+        // Trigger IPC "sent" event
+        $e = new IpcEvent('sent', $this);
+        $e->setMessage($this->_last_send);
+        $this->getEventManager()->trigger($e);
 
         return $this;
     }
@@ -47,7 +51,10 @@ class DbAdapter extends AbstractAdapter
         // Extract message from channel
         $this->_last_recv = $channel->current()[$this->_recv_identifier];
 
-        $this->getEventManager()->trigger('received', $this, array('message' => $this->_last_recv));
+        // Trigger IPC "received" event
+        $e = new IpcEvent('received', $this);
+        $e->setMessage($this->_last_recv);
+        $this->getEventManager()->trigger($e);
 
         return $this->_last_recv;
     }
