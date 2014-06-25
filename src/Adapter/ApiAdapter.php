@@ -4,6 +4,7 @@ namespace MarkInJapan\Ipc\Adapter;
 
 use InvalidArgumentException;
 use Rej\RestApiClient\ApiGateway;
+use MarkInJapan\Ipc\IpcEvent;
 
 class ApiAdapter extends AbstractAdapter
 {
